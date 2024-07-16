@@ -1,7 +1,11 @@
 {
   "name": "ecommerce-code",
   "version": "1.0.0",
+<<<<<<< HEAD
   "description": "Project Work for progetto CODE - backend \r Francesco Spata",
+=======
+  "description": "Project Work for progetto CODE - backend",
+>>>>>>> 20811db86ef31c8f89afae3ffaadbd8655bd97b0
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +14,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+<<<<<<< HEAD
+=======
+    "@types/node": "^20.14.10",
+>>>>>>> 20811db86ef31c8f89afae3ffaadbd8655bd97b0
     "nodemon": "^3.1.4",
     "typescript": "^5.5.3"
   },
