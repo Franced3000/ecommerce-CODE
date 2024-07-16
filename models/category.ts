@@ -1,5 +1,5 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import  sequelize  from '../config/db'; // Assicurati che il percorso sia corretto
+import { DataTypes, Model } from 'sequelize';
+import sequelize from '../config/db'; // Assicurati che il percorso sia corretto
 
 // Definizione degli attributi della categoria
 interface CategoryAttributes {
@@ -8,7 +8,6 @@ interface CategoryAttributes {
   idAdmin:number;
 }
 
-
 // Definizione del modello Category
 class Category extends Model<CategoryAttributes>  
   implements CategoryAttributes {
@@ -16,7 +15,6 @@ class Category extends Model<CategoryAttributes>
   public name!: string;
   public idAdmin!:number;
   
-
   // Timestamps
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;

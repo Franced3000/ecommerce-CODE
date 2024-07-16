@@ -1,7 +1,5 @@
 // sync.ts
 import { Dialect, Sequelize } from 'sequelize';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const dbName = process.env.DB_NAME as string;
 const dbUser = process.env.DB_USER as string;
@@ -14,7 +12,18 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: dbDriver,
 });
 
+const syncDatabase = async () => {
+  try {
+    await sequelizeConnection.authenticate();
+    console.log('Connection has been established successfully.');
+    await sequelizeConnection.sync({ force: true });
+    console.log('All models were synchronized successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+};
 
+syncDatabase();
 
 // Associazioni
 // Tavolo.hasMany(Prenotazione, { foreignKey: 'tavoloId' });
