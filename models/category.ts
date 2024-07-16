@@ -1,4 +1,4 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model} from 'sequelize';
 import  sequelize  from '../config/db'; // Assicurati che il percorso sia corretto
 
 // Definizione degli attributi della categoria
