@@ -1,8 +1,8 @@
 // sync.ts
 import { Dialect, Sequelize } from 'sequelize';
-import Cliente from '../models/user';
-import Prenotazione from '../models/order';
-import Tavolo from '../models/category';
+import User from '../models/user';
+import Order from '../models/order';
+import Category from '../models/category';
 
 const dbName = process.env.DB_NAME as string;
 const dbUser = process.env.DB_USER as string;
