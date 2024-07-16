@@ -1,19 +1,21 @@
-import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '../config/db'; // Assicurati che il percorso sia corretto
+import { DataTypes, Model, Optional } from 'sequelize';
+import  sequelize  from '../config/db'; // Assicurati che il percorso sia corretto
 
 // Definizione degli attributi della categoria
 interface CategoryAttributes {
   id: number;
   name: string;
+  idAdmin:number;
 }
 
-interface CategoryCreationAttributes extends Optional<CategoryAttributes, 'id'> {}
 
 // Definizione del modello Category
-class Category extends Model<CategoryAttributes, CategoryCreationAttributes>
+class Category extends Model<CategoryAttributes>  
   implements CategoryAttributes {
   public id!: number;
   public name!: string;
+  public idAdmin!:number;
+  
 
   // Timestamps
   public readonly createdAt!: Date;
@@ -33,11 +35,16 @@ Category.init(
       allowNull: false,
      
     },
+   idAdmin: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+   },
   },
+  
   {
     sequelize,
     modelName: 'Category',
-    timestamps: true, // Abilita i campi `createdAt` e `updatedAt`
+    timestamps: false, // Abilita i campi `createdAt` e `updatedAt`
   }
 );
 
