@@ -1,15 +1,15 @@
-import { DataTypes, Model} from 'sequelize';
-import  sequelize  from '../config/db'; // Assicurati che il percorso sia corretto
+import { DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '../config/db'; // Assicurati che il percorso sia corretto
 
 // Definizione degli attributi della categoria
 interface CategoryAttributes {
-  id: number;
+  id?: number;
   name: string;
 }
 
 
 // Definizione del modello Category
-class Category extends Model<CategoryAttributes>  
+class Category extends Model<CategoryAttributes, Optional<CategoryAttributes, 'id'>>  
   implements CategoryAttributes {
   public id!: number;
   public name!: string;
