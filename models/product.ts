@@ -7,7 +7,6 @@ interface ProductAttributes {
   name: string;
   description: string;
   price: number;
-  idAdmin: number; // Riferimento alla categoria
 }
 
 
@@ -20,7 +19,6 @@ class Product extends Model<ProductAttributes>
   public name!: string;
   public description!: string;
   public price!: number;
-  public idAdmin!: number;
 
   // Timestamps
   public readonly createdAt!: Date;
@@ -44,17 +42,9 @@ Product.init(
       allowNull: false,
     },
     price: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
-    },
-    idAdmin: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-      references: {
-        model: 'products', // Assicurati che questo modello esista e sia corretto
-        key: 'id',
-      },
-    },
+    }
   },
   {
     sequelize,

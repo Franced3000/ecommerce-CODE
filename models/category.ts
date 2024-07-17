@@ -5,7 +5,6 @@ import  sequelize  from '../config/db'; // Assicurati che il percorso sia corret
 interface CategoryAttributes {
   id: number;
   name: string;
-  idAdmin:number;
 }
 
 
@@ -14,7 +13,6 @@ class Category extends Model<CategoryAttributes>
   implements CategoryAttributes {
   public id!: number;
   public name!: string;
-  public idAdmin!:number;
   
 
   // Timestamps
@@ -34,11 +32,7 @@ Category.init(
       type: DataTypes.STRING,
       allowNull: false,
      
-    },
-   idAdmin: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-   },
+    }
   },
   
   {
