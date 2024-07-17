@@ -23,7 +23,7 @@ app.get('/', (req: Request, res: any) => {
 
 
 sequelizeConnection
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     app.listen(port, () => {
       console.log(`Server in ascolto sulla porta ${port}`);

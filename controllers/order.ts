@@ -4,7 +4,7 @@ import Order from '../models/order';
 const router = Router();
 
 // GET /api/orders: Restituisce lo storico degli ordini dell'utente.
-router.get('/', async (req: Request, res: Response) => {
+export const getHistory = async (req: Request, res: Response): Promise<void> => {
   try {
     const { page = 1, limit = 10 } = req.query;
     const offset = (Number(page) - 1) * Number(limit);
@@ -26,10 +26,10 @@ router.get('/', async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
-});
+};
 
 // POST /api/orders: Crea un nuovo ordine
-router.post('/', async (req: Request, res: Response) => {
+export const createOrder = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId, products, total, shippingDetails } = req.body;
 
@@ -44,10 +44,10 @@ router.post('/', async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
-});
+};
 
 // GET /api/orders/:id: Restituisce i dettagli di un singolo ordine
-router.get('/:id', async (req: Request, res: Response) => {
+export const getOrder = async (req: Request, res: Response): Promise<any> => {
   try {
     const order = await Order.findByPk(req.params.id);
 
@@ -59,10 +59,10 @@ router.get('/:id', async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
-});
+};
 
 // PUT /api/orders/:id: Aggiorna lo stato di un ordine
-router.put('/:id', async (req: Request, res: Response) => {
+export const updateOrder = async (req: Request, res: Response): Promise<any> => {
   try {
     const order = await Order.findByPk(req.params.id);
 
@@ -75,10 +75,11 @@ router.put('/:id', async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
-});
+};
 
 // DELETE /api/orders/:id: Cancella un ordine
-router.delete('/:id', async (req: Request, res: Response) => {
+export const deleteOrder = async (req: Request, res: Response): Promise<any> => {
+
   try {
     const order = await Order.findByPk(req.params.id);
 
@@ -92,6 +93,6 @@ router.delete('/:id', async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
-});
+};
 
 export default router;
