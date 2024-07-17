@@ -1,10 +1,9 @@
 const express = require('express');
 import sequelizeConnection from './config/db'; // Importa la connessione al database
-import route from './routes/user';
-import User from './models/user';
-import Order from './models/order';
-import Category from './models/category';
+import routerCategory from './routes/category';
+import routerOrder from './routes/order';
 import routerUser from './routes/user';
+
 
 const app = express();
 const port = 3000;
@@ -12,7 +11,8 @@ const port = 3000;
 // Middleware per parsing JSON
 app.use(express.json());
 
-app.use('/api', routerUser);
+app.use('/api', routerUser, routerCategory, routerOrder);
+
 
 // Definiscole rotte del tuo server qui
 app.get('/', (req: Request, res: any) => {
