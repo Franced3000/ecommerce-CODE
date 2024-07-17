@@ -1,7 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
 import User from './user';
-import { json } from 'sequelize';
 
 interface CartAttributes {
   userId: number;
@@ -37,5 +36,6 @@ Cart.init({
   tableName: 'carts',
   timestamps: false
 });
+Cart.belongsTo(User, { foreignKey: 'userId' });
 
 export default Cart;

@@ -62,4 +62,8 @@ Product.init(
   }
 );
 
+Product.hasOne(Category, { foreignKey: 'id' });
+Category.hasMany(Product, { foreignKey: 'id' });
+
+
 export default Product;

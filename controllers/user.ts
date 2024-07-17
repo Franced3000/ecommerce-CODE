@@ -88,16 +88,6 @@ export const logout = (req: Request, res: Response) => {
   res.status(200).json({ message: 'Logout avvenuto con successo' });
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
-  try {
-    const users = await UserService.getAllUsers();
-    return res.status(200).json(users);
-  } catch (error: unknown) {
-    const errorMessage = (error as Error).message;
-    res.status(500).json({ message: errorMessage })
-}
-}
-
 export const getUser = async (req: Request, res: Response) => {
   try {
     const idJwt = req.body.user.id;
