@@ -1,12 +1,13 @@
 import { DataTypes, Model} from 'sequelize';
 import  sequelize  from '../config/db'; // Assicurati che il percorso sia corretto
-
+import Category from './category';
 // Definizione degli attributi del prodotto
 interface ProductAttributes {
   id: number;
   name: string;
   description: string;
   price: number;
+  category: any;
 }
 
 
@@ -19,6 +20,7 @@ class Product extends Model<ProductAttributes>
   public name!: string;
   public description!: string;
   public price!: number;
+  public category!: object;
 
   // Timestamps
   public readonly createdAt!: Date;
@@ -40,6 +42,13 @@ Product.init(
     description: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    category :{
+    type:DataTypes.INTEGER.UNSIGNED,
+   references: {
+    model:Category,
+    key:'id'
+   }
     },
     price: {
       type: DataTypes.DECIMAL(10, 2),
