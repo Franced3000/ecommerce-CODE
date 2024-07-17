@@ -1,10 +1,12 @@
 import express from 'express';
-import {
-  createUser,
-} from '../controllers/user';
+import { userValidator, idParamValidator } from '../middleware/validator';
+import { createUser, getAllUsers, getUser, updateUser, deleteUser } from '../controllers/user';
 
 const router = express.Router();
 
-router.post('/', createUser);
+router.post('/', userValidator, createUser);
+router.get('/', getAllUsers);
+router.get('/:id', idParamValidator, getUser);
+router.delete('/:id', idParamValidator, deleteUser);
 
 export default router;
