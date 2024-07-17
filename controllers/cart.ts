@@ -21,7 +21,23 @@ export const addToCart = async (req: Request, res: Response) => {
     const userId = req.body.user.id;
     const productId = parseInt(req.params.id, 10);
     const quantity = parseInt(req.body.quantity) || 1;
-    const cart = await CartService.addToCart(userId, productId, quantity);
+
+    // Trova il carrello dell'utente o creane uno se non esiste
+    let cart = await Cart.findOne({ where: { userId } });
+    if (!cart) {
+      cart = await Cart.create({ userId, products: [], total: 0 });
+    }
+
+    // Aggiorna o aggiungi il prodotto nel carrello
+    const existingProduct = cart.products.find( (p: any) => p.productId === productId);
+    if (existingProduct) {
+      existingProduct.quantity += quantity;
+    } else {
+      cart.products.push({ productId, quantity });
+    }
+
+    // Salva le modifiche
+    await cart.save();
     res.status(200).json(cart);
   } catch (error: unknown) {
     const errorMessage = (error as Error).message;
@@ -29,12 +45,24 @@ export const addToCart = async (req: Request, res: Response) => {
   }
 };
 
+
 export const removeFromCart = async (req: Request, res: Response) => {
   try {
     const userId = req.body.user.id;
     const productId = parseInt(req.params.id, 10);
-    const cart = await CartService.removeFromCart(userId, productId);
-    res.status(200).json(cart);
+    const quantity = parseInt(req.body.quantity) || 1;
+
+    // Trova il carrello dell'utente o creane uno se non esiste
+    let cart = await Cart.findOne({ where: { userId } });
+    if (cart && cart.products && cart.products.length > 0) {
+      cart.products = cart.products.filter((p:any )=> p.productId === productId)
+      await cart.save();
+      res.status(200).json(cart);
+    } else {
+      res.status(404).json({message: 'cart empty'});
+    }
+   
+   
   } catch (error: unknown) {
     const errorMessage = (error as Error).message;
     res.status(500).json({ message: errorMessage });

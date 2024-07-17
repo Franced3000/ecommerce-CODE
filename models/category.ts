@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/db'; // Assicurati che il percorso sia corretto
+import Product from './product';
 
 // Definizione degli attributi della categoria
 interface CategoryAttributes {

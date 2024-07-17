@@ -22,12 +22,12 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
 
 
 // Associazioni
-Product.belongsTo(Category, { foreignKey: 'categoryId' });
-Category.hasMany(Product, { foreignKey: 'categoryId' });
+// Product.belongsTo(Category, { foreignKey: 'categoryId' });
+// Category.hasMany(Product, { foreignKey: 'categoryId' });
 
-User.hasMany(Order, { foreignKey: 'userId' });
-Order.belongsTo(User, { foreignKey: 'userId' });
+// User.hasMany(Order, { foreignKey: 'userId' });
+// Order.belongsTo(User, { foreignKey: 'userId' });
 
-Cart.belongsTo(User, { foreignKey: 'userId' });
+// Cart.belongsTo(User, { foreignKey: 'userId' });
 
 export default sequelizeConnection;

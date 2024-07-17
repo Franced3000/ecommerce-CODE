@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
+import Order from './order';
 
 interface UserAttributes {
     id:number;
@@ -50,5 +51,6 @@ User.init(
     timestamps: false,
   }
 );
+User.hasMany(Order, { foreignKey: 'userId' });
 
 export default User;

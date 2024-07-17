@@ -16,6 +16,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.body.user = decoded; 
+    console.log(decoded)
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Token non valido' });

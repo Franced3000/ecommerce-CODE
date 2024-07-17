@@ -37,5 +37,6 @@ Cart.init({
   tableName: 'carts',
   timestamps: false
 });
+Cart.belongsTo(User, { foreignKey: 'userId' });
 
 export default Cart;

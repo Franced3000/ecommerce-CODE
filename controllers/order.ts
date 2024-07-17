@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import Order from '../models/order';
+import User from '../models/user';
 
 const router = Router();
 
@@ -94,5 +95,6 @@ export const deleteOrder = async (req: Request, res: Response): Promise<any> => 
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+Order.belongsTo(User, { foreignKey: 'userId' });
 
 export default router;
