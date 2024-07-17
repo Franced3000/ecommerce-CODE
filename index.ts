@@ -4,6 +4,7 @@ import routerCategory from './routes/category';
 import routerOrder from './routes/order';
 import routerUser from './routes/user';
 import routerProduct from './routes/product';
+import routerCart from './routes/cart';
 
 
 const app = express();
@@ -12,7 +13,7 @@ const port = 3000;
 // Middleware per parsing JSON
 app.use(express.json());
 
-app.use('/api', routerUser, routerCategory, routerOrder, routerProduct);
+app.use('/api', routerUser, routerCategory, routerOrder, routerProduct, routerCart);
 
 
 // Definiscole rotte del tuo server qui
