@@ -49,3 +49,13 @@ export const adminRegisterValidator = [
       .isLength({ min: 6 })
       .withMessage('La password deve essere almeno di 6 caratteri')
   ];
+
+  export const adminValidator = [
+    check('email')
+      .custom(email => {
+        if (!whitelistEmails.includes(email)) {
+          throw new Error('Email non presente nella whitelist');
+        }
+        return true;
+      })
+  ];
