@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator';
+import { body, param, check } from 'express-validator';
 
 
 
@@ -25,3 +25,27 @@ export const idParamValidator = [
     .isInt()
     .withMessage('L\'ID deve essere un numero intero'),
 ];
+
+const whitelistEmails = [
+    'admin1@example.com',
+    'admin2@example.com',
+    'admin3@example.com'
+  ];
+
+export const adminRegisterValidator = [
+    check('name')
+      .notEmpty()
+      .withMessage('Il nome è obbligatorio'),
+    check('email')
+      .isEmail()
+      .withMessage('L\'email fornita non è valida')
+      .custom(email => {
+        if (!whitelistEmails.includes(email)) {
+          throw new Error('Email non presente nella whitelist');
+        }
+        return true;
+      }),
+    check('password')
+      .isLength({ min: 6 })
+      .withMessage('La password deve essere almeno di 6 caratteri')
+  ];

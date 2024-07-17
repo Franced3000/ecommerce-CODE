@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import User from '../models/user';
+import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+const secretKey = process.env.SECRET_KEY as string;
 
 export const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
@@ -50,6 +53,41 @@ export const createUser = async (req: Request, res: Response) => {
 }
 };
 
+
+export const login = async (req: Request, res: Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(400).json({ message: 'Email o password invalida' });
+    }
+
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Email o password invalida' });
+    }
+
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, secretKey, {
+      expiresIn: '1h'
+    });
+
+    res.status(200).json({ token });
+  } catch (error: unknown) {
+    const errorMessage = (error as Error).message;
+    res.status(500).json({ message: errorMessage });
+  }
+};
+
+export const logout = (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Logout avvenuto con successo' });
+};
+
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await UserService.getAllUsers();
@@ -62,8 +100,8 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const getUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const userId = parseInt(id, 10); 
+    const idJwt = req.body.user.id;
+    const userId = parseInt(idJwt, 10); 
     if (isNaN(userId)) {
       return res.status(400).json({ message: 'ID Utente non valido' });
     }
