@@ -1,10 +1,8 @@
 import { Request, Response, Router } from 'express';
 import Order from '../models/order';
 import User from '../models/user';
+import Cart from '../models/cart';
 
-const router = Router();
-
-// GET /api/orders: Restituisce lo storico degli ordini dell'utente.
 export const getHistory = async (req: Request, res: Response): Promise<void> => {
   try {
     const { page = 1, limit = 10 } = req.query;
@@ -12,7 +10,7 @@ export const getHistory = async (req: Request, res: Response): Promise<void> => 
 
     const orders = await Order.findAndCountAll({
       where: {
-        userId: req.body.user.id // assuming req.user.id contains the ID of the logged-in user
+        userId: req.body.user.id 
       },
       limit: Number(limit),
       offset: offset,
@@ -29,25 +27,40 @@ export const getHistory = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-// POST /api/orders: Crea un nuovo ordine
-export const createOrder = async (req: Request, res: Response): Promise<void> => {
+export const createOrder = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { userId, products, total, shippingDetails } = req.body;
+    const userId = req.body.user.id; 
+    const { name, surname, address, postalCode, city, region, country } = req.body;
+
+    const cart = await Cart.findOne({ where: { userId } });
+    if (!cart || !cart.products || cart.products.length === 0) {
+      return res.status(404).json({ message: 'Carrello non trovato o vuoto' });
+    }
 
     const order = await Order.create({
       userId,
-      products,
-      total,
-      ...shippingDetails
+      products: cart.products,
+      total: cart.total,
+      name,
+      surname,
+      address,
+      postalCode,
+      city,
+      region,
+      country,
+      status: 'pending' 
     });
+
+    await cart.update({ products: JSON.stringify([]), total: 0 });
 
     res.status(201).json(order);
   } catch (error) {
+    console.error('Errore durante la creazione dell\'ordine:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
 
-// GET /api/orders/:id: Restituisce i dettagli di un singolo ordine
+
 export const getOrder = async (req: Request, res: Response): Promise<any> => {
   try {
     const order = await Order.findByPk(req.params.id);
@@ -62,7 +75,6 @@ export const getOrder = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-// PUT /api/orders/:id: Aggiorna lo stato di un ordine
 export const updateOrder = async (req: Request, res: Response): Promise<any> => {
   try {
     const order = await Order.findByPk(req.params.id);
@@ -78,7 +90,6 @@ export const updateOrder = async (req: Request, res: Response): Promise<any> => 
   }
 };
 
-// DELETE /api/orders/:id: Cancella un ordine
 export const deleteOrder = async (req: Request, res: Response): Promise<any> => {
 
   try {
@@ -88,7 +99,6 @@ export const deleteOrder = async (req: Request, res: Response): Promise<any> => 
       return res.status(404).json({ error: 'Order not found' });
     }
 
-    // Instead of deleting, we can update the order status to 'deleted'
     await order.update({ status: 'deleted' });
     res.json({ message: 'Order marked as deleted' });
   } catch (error) {
@@ -97,4 +107,3 @@ export const deleteOrder = async (req: Request, res: Response): Promise<any> => 
 };
 Order.belongsTo(User, { foreignKey: 'userId' });
 
-export default router;

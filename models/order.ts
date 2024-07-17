@@ -1,8 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
+import User from './user';
 
 interface OrderAttributes {
-  id: number;
   userId: number;
   products: any;
   total: number;
@@ -17,7 +17,6 @@ interface OrderAttributes {
 }
 
 class Order extends Model<OrderAttributes> implements OrderAttributes {
-  public id!: number;
   public userId!: number;
   public products!: any;
   public total!: number;
@@ -28,18 +27,17 @@ class Order extends Model<OrderAttributes> implements OrderAttributes {
   public city!: string;
   public region!: string;
   public country!: string;
-  public status!: string;
+  public status?: string;
 }
 
 Order.init({
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    autoIncrement: true,
-    primaryKey: true,
-  },
   userId: {
     type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
+    primaryKey: true,
+    references: {
+      model: User, 
+      key: 'id'
+    }
   },
   products: {
     type: DataTypes.JSON,
@@ -86,5 +84,6 @@ Order.init({
   sequelize,
   tableName: 'orders'
 });
+Order.belongsTo(User, { foreignKey: 'userId' });
 
 export default Order;

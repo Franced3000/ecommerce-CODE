@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
-import Order from './order';
 
 interface UserAttributes {
     id:number;
@@ -9,7 +8,6 @@ interface UserAttributes {
     password: string;
     role: string;
 }
-// Class definition using Model with type inference
 class User extends Model<UserAttributes> implements UserAttributes {
   public id!:number;
   public name!: string;
@@ -51,6 +49,5 @@ User.init(
     timestamps: false,
   }
 );
-User.hasMany(Order, { foreignKey: 'userId' });
 
 export default User;

@@ -15,7 +15,7 @@ res.status(200).json(products);
 };
 }
 
-export const getProductById = async (req: Request, re: Response): Promise<void> => {
+export const getProductById = async (req: Request, res: Response): Promise<void> => {
     const {id} = req.params
 
     try {
@@ -24,11 +24,11 @@ export const getProductById = async (req: Request, re: Response): Promise<void> 
         response.status(404).json({ message: 'Prodotto non trovato' });
         return;    
     }
-    response.status(200).json(idProduct);
+    res.status(200).json(idProduct);
 
     } catch (error) {
         console.error('Errore nel recuperare l\'utente:', error);
-        response.status(500).json({ message: 'Errore del server' });
+        res.status(500).json({ message: 'Errore del server' });
     }
     };
 
@@ -36,14 +36,12 @@ export const getProductById = async (req: Request, re: Response): Promise<void> 
         const { name, description, price, id, category} = req.body;
       
         try {
-          // Verifica se la categoria esiste
           req.body.category = await Category.findByPk(id);
           if (!category) {
             res.status(404).json({ message: 'Categoria non trovata' });
             return;
           }
       
-          // Crea il prodotto
           const newProduct = await Product.create({
             name,
             description,
@@ -81,7 +79,7 @@ export const getProductById = async (req: Request, re: Response): Promise<void> 
     };
       
     export const deleteProduct = async (req: Request, res: Response) => {
-     const { id } = req.body
+     const { id } = req.params
      console.log('id:', id)
 
      if (!id) {
@@ -97,11 +95,11 @@ export const getProductById = async (req: Request, re: Response): Promise<void> 
     });
 
         if (!product) {
-            res.status(404).json({ message: 'Prenotazione non trovata' });
+            res.status(404).json({ message: 'Prodotto non trovato' });
             return;
         }
         await product.destroy();
-        res.status(200).json({ message: 'Prenotazione eliminata con successo' });
+        res.status(200).json({ message: 'Prodotto eliminata con successo' });
     } catch (error) {
         console.error('Errore nell\'eliminazione dell prodotto:', error);
       res.status(500).json({ message: 'Errore del server' });
