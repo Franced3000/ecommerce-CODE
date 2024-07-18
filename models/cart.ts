@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/db';
 import User from './user';
 
@@ -9,7 +9,7 @@ interface CartAttributes {
   total: number; 
 }
 
-class Cart extends Model<CartAttributes> implements CartAttributes {
+class Cart extends Model<CartAttributes, Optional<CartAttributes, 'id'>> implements CartAttributes {
   public id!: number;
   public userId!: number;
   public products!: any;
@@ -20,6 +20,7 @@ Cart.init({
   id: {
     type: DataTypes.INTEGER.UNSIGNED,
     primaryKey: true,
+    autoIncrement: true
   },
   userId: {
     type: DataTypes.INTEGER.UNSIGNED,
