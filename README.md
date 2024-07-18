@@ -4,7 +4,7 @@
 Il caso-studio proposto per questo Project Work riguarda la creazione di una piccola piattaforma e-commerce che permette agli utenti di visualizzare tutti i prodotti disponibili, effettuare ricerche e acquistare prodotti. L'obiettivo principale dell'esercizio è permettere agli studenti di applicare le loro conoscenze di programmazione backend e frontend per creare un sistema funzionante che consenta agli utenti di interagire con i prodotti.
 
 #### Tipologie di utenze previste
-User generico
+#### User generico
 Può visualizzare i prodotti disponibili.
 Può acquistare i prodotti disponibili.
 Può visualizzare lo storico dei prodotti che ha acquistato.
