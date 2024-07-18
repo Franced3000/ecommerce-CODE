@@ -1,15 +1,17 @@
 import { Request, Response } from 'express';
 import PayPalService from '../models/paypal';
-import CartService from '../controllers/cart';
+import Cart from '../models/cart';
+import {clearCart} from '../controllers/cart';
 
-export const initiatePayment = async (req: Request, res: Response) => {
+
+export const initiatePayment = async (req: any, res: any) => {
   try {
-    const userId = req.user?.id; // tramite jwt 
+    const userId = req.user?.id; // tramite jwt
     if (!userId) {
       return res.status(401).json({ message: 'User not authenticated' });
     }
 
-    const cart = await CartService.getCartByUserId(userId);
+    const cart = await Cart.findOne({ where: { userId } });
     if (!cart || cart.products.length === 0) {
       return res.status(400).json({ message: 'Cart is empty' });
     }
@@ -43,20 +45,47 @@ export const executePayment = async (req: any, res: any) => {
       return res.status(400).json({ message: 'Invalid payment information' });
     }
 
+    // Esegui il pagamento
     await PayPalService.executePayment(paymentId as string, PayerID as string, amount);
 
-    // Clear the cart and payment amount from session
+    // Gestione del pagamento di PayPal andato a buon fine
+    const userEmail = req.user?.email;
+    if (userEmail) {
+      await sendPaymentSuccessEmail(userEmail, paymentId, amount);
+    }
+
+    
+    // Pulisci il carrello e l'importo del pagamento dalla sessione
     const userId = req.user?.id;
     if (userId) {
-      await CartService.clearCart(userId);
+      try {
+        const userId = req.body.user.id;
+        await Cart.update({ products: JSON.stringify([]), total: 0 }, { where: { userId } });
+        res.status(200).json({ message: 'Carrello svuotato con successo' });
+      } catch (error: unknown) {
+        const errorMessage = (error as Error).message;
+        res.status(500).json({ message: errorMessage });
+      }
     }
     delete req.session.paymentAmount;
+    delete req.session.orderId;
 
     res.redirect('/?status=success');
   } catch (error) {
     console.error('Error executing payment:', error);
     res.redirect('/?status=error');
   }
+};
+
+// Funzione per inviare una email di conferma pagamento
+const sendPaymentSuccessEmail = async (email: any , paymentId: any , amount: any ) => {
+  // Implementa la logica per inviare una email
+  // Esempio:
+  await email.send({
+    to: email,
+    subject: 'Payment Successful',
+    body: `Your payment of ${amount} has been successfully processed. Payment ID: ${paymentId}`,
+  });
 };
 
 export const cancelPayment = (req: any, res: any) => {

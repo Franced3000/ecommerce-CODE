@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import Category from '../models/category';
 
-// Restituisce l'elenco completo delle categorie
 export const getCategories = async (req: Request, res: Response) => {
   try {
     const categories = await Category.findAll();
@@ -11,7 +10,6 @@ export const getCategories = async (req: Request, res: Response) => {
   }
 };
 
-// Crea una nuova categoria
 export const createCategory = async (req: Request, res: Response) => {
   const { name } = req.body;
   try {
@@ -26,7 +24,6 @@ export const createCategory = async (req: Request, res: Response) => {
   }
 };
 
-// Modifica una categoria già esistente
 export const updateCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name } = req.body;
@@ -42,3 +39,5 @@ export const updateCategory = async (req: Request, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export default Category 

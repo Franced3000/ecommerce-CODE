@@ -22,12 +22,10 @@ class Product extends Model<ProductAttributes>
   public price!: number;
   public category!: object;
 
-  // Timestamps
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
-// Inizializzazione del modello Product
 Product.init(
   {
     id: {
@@ -58,8 +56,12 @@ Product.init(
   {
     sequelize,
     modelName: 'Product',
-    timestamps: true, // Abilita i campi `createdAt` e `updatedAt`
+    timestamps: true,
   }
 );
+
+Product.hasOne(Category, { foreignKey: 'id' });
+Category.hasMany(Product, { foreignKey: 'id' });
+
 
 export default Product;

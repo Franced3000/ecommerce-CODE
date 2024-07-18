@@ -1,4 +1,3 @@
-// sync.ts
 import { Dialect, Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -13,15 +12,4 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
   host: dbHost,
   dialect: dbDriver,
 });
-
-
-
-
-// Associazioni
-// Tavolo.hasMany(Prenotazione, { foreignKey: 'tavoloId' });
-// Prenotazione.belongsTo(Tavolo, { foreignKey: 'tavoloId' });
-
-// Cliente.hasMany(Prenotazione, { foreignKey: 'clienteId' });
-// Prenotazione.belongsTo(Cliente, { foreignKey: 'clienteId' });
-
 export default sequelizeConnection 

@@ -8,7 +8,6 @@ interface UserAttributes {
     password: string;
     role: string;
 }
-// Class definition using Model with type inference
 class User extends Model<UserAttributes> implements UserAttributes {
   public id!:number;
   public name!: string;

@@ -1,9 +1,10 @@
 import paypal from 'paypal-rest-sdk';
 import config from '../config/paypal';
 
+
 paypal.configure({
   mode: config.mode as 'sandbox' | 'live',
-  client_id: config.Client,
+  client_id: config.clientId,
   client_secret: config.clientSecret,
 });
 

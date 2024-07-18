@@ -1,24 +1,30 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/db';
 import User from './user';
-import { json } from 'sequelize';
 
 interface CartAttributes {
+  id:number;
   userId: number;
   products: any;
   total: number; 
 }
 
-class Cart extends Model<CartAttributes> implements CartAttributes {
+class Cart extends Model<CartAttributes, Optional<CartAttributes, 'id'>> implements CartAttributes {
+  public id!: number;
   public userId!: number;
   public products!: any;
   public total!: number;
 }
 
 Cart.init({
-  userId: {
+  id: {
     type: DataTypes.INTEGER.UNSIGNED,
     primaryKey: true,
+    autoIncrement: true
+  },
+  userId: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    primaryKey: false,
     references: {
       model: User, 
       key: 'id'
@@ -37,5 +43,6 @@ Cart.init({
   tableName: 'carts',
   timestamps: false
 });
+Cart.belongsTo(User, { foreignKey: 'userId' });
 
 export default Cart;
