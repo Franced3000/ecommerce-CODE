@@ -37,7 +37,7 @@ GET ```/api/auth/user```: Restituisce le informazioni dell'utente attualmente au
 ![](getUser.png)
 
 #### API per la gestione delle categorie (solo admin)
-GET ```/api/categorie```s: Restituisce l’elenco completo delle categorie.<br>
+GET ```/api/categories```: Restituisce l’elenco completo delle categorie.<br>
 POST ```/api/categories```: Crea una nuova categoria (verificare che non ne esiste già una con lo stesso nome).<br>
 PUT ```/api/categories/:id```: Modifica una categoria già esistente.<br>
 ![](addCategory.png)
