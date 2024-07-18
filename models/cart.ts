@@ -3,21 +3,27 @@ import sequelize from '../config/db';
 import User from './user';
 
 interface CartAttributes {
+  id:number;
   userId: number;
   products: any;
   total: number; 
 }
 
 class Cart extends Model<CartAttributes> implements CartAttributes {
+  public id!: number;
   public userId!: number;
   public products!: any;
   public total!: number;
 }
 
 Cart.init({
-  userId: {
+  id: {
     type: DataTypes.INTEGER.UNSIGNED,
     primaryKey: true,
+  },
+  userId: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    primaryKey: false,
     references: {
       model: User, 
       key: 'id'
