@@ -5,10 +5,13 @@ import routerOrder from './routes/order';
 import routerUser from './routes/user';
 import routerProduct from './routes/product';
 import routerCart from './routes/cart';
-
+import paymentRoutes from './routes/paypal';
 
 const app = express();
 const port = 3000;
+
+// Middleware per la sessione 
+app.use('/api/payment', paymentRoutes);
 
 // Middleware per parsing JSON
 app.use(express.json());

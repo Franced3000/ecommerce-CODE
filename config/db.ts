@@ -16,6 +16,7 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
 
 
 
+
 // Associazioni
 // Tavolo.hasMany(Prenotazione, { foreignKey: 'tavoloId' });
 // Prenotazione.belongsTo(Tavolo, { foreignKey: 'tavoloId' });
@@ -23,4 +24,4 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
 // Cliente.hasMany(Prenotazione, { foreignKey: 'clienteId' });
 // Prenotazione.belongsTo(Cliente, { foreignKey: 'clienteId' });
 
-export default sequelizeConnection;
+export default sequelizeConnection 
